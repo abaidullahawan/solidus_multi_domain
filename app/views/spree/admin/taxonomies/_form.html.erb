@@ -4,9 +4,20 @@
     <%= error_message_on :taxonomy, :name, :class => 'fullwidth title'  %>
     <%= text_field :taxonomy, :name  %>
   <% end %>
-</div>
-
 <p>
   <%= f.label :name, I18n.t('spree.store') %> <span class="required">*</span><br />
   <%= collection_select :taxonomy, :store_id, Spree::Store.all, :id, :name  %>
+  <%= f.field_container :icon do %>
+      <%= f.label :icon %><br>
+      <%= f.file_field :icon %>
+      <% if f.object.icon_present? %>
+        <%= image_tag f.object.icon(:mini) %>
+        <%= link_to t('spree.actions.remove'),
+                    admin_taxonomy_attachment_path(@taxonomy,
+                                                          attachment_definition: :icon,
+                                                          authenticity_token: form_authenticity_token),
+                    method: :delete,
+                    class: 'btn btn-sm btn-danger' %>
+      <% end %>
+    <% end %>
 </p>
